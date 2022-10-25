@@ -6,11 +6,11 @@
 /*   By: dlima-se <dlima-se@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 02:59:24 by dlima-se          #+#    #+#             */
-/*   Updated: 2022/10/24 22:11:41 by dlima-se         ###   ########.fr       */
+/*   Updated: 2022/10/25 00:16:35 by dlima-se         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
 int	ft_isdigit(int ch)
 {
@@ -18,7 +18,6 @@ int	ft_isdigit(int ch)
 		return (0);
 	return (1);
 }
-
 
 int	ft_putnbr(int d)
 {
@@ -56,29 +55,15 @@ int	ft_puthexa(unsigned int x, int signal)
 		base_character = "0123456789ABCDEF";
 	else
 		base_character = "0123456789abcdef";
-	if (signal == 2)
-	{
-		if (x == 0)
-		{
-			ft_putstr("(null");
-			return (i);
-		}
-		ft_putstr("0x");
-	}
 	if (x == 0)
-	{
-		ft_putchar('0');
-		return (1);
-	}
+		i += ft_putchar('0');
 	while (x != 0)
 	{
 		string[i] = base_character[x % 16];
 		x = x / 16;
 		i++;
 	}
-	if (signal == 2)
-		i += 2;
-	return (i + 1);
+	return (i);
 }
 
 int	ft_putunbr(unsigned int u)
@@ -90,4 +75,25 @@ int	ft_putunbr(unsigned int u)
 		ft_putunbr(u / 10);
 	len *= ft_putchar(u % 10 + '0');
 	return (len + 1);
+}
+
+int	ft_putptr(unsigned long ptr)
+{
+	char	*base_character;
+	int		i;
+
+	i = 0;
+	base_character = "0123456789abcdef";
+	if (ptr == 0)
+	{
+		i += ft_putstr(SYS_NIL);
+		return (i);
+	}
+	i += ft_putstr("0x");
+	while (ptr != 0)
+	{
+		i += ft_putchar(base_character[ptr % 16]);
+		ptr = ptr / 16;
+	}
+	return (i);
 }
