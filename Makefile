@@ -6,14 +6,14 @@
 #    By: dlima-se <dlima-se@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/18 02:26:38 by dlima-se          #+#    #+#              #
-#    Updated: 2022/10/25 23:36:08 by dlima-se         ###   ########.fr        #
+#    Updated: 2022/10/26 22:11:39 by dlima-se         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= libftprintf.a
 SRCS	= ft_printf.c printf_numeric.c printf_alpha.c
 OBJS	= $(SRCS:.c=.o)
-CC			= gcc -c
+CC		= cc -c
 CFLAGS	= -Wall -Wextra -Werror
 
 all:	$(NAME)
