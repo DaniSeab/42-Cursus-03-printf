@@ -6,7 +6,7 @@
 /*   By: dlima-se <dlima-se@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 02:59:24 by dlima-se          #+#    #+#             */
-/*   Updated: 2022/10/25 00:16:35 by dlima-se         ###   ########.fr       */
+/*   Updated: 2022/10/26 02:16:38 by dlima-se         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,13 @@ int	ft_putnbr(int d)
 
 	len = 0;
 	if (d == -2147483648)
-		ft_putstr("-2147483648");
+	{
+		len += ft_putstr("-2147483648");
+		return (len);
+	}
 	else if (d < 0)
 	{
-		ft_putchar('-');
+		len += ft_putchar('-');
 		d *= -1;
 	}
 	if (d <= 9)
@@ -38,43 +41,38 @@ int	ft_putnbr(int d)
 	}
 	else
 	{
-		ft_putnbr(d / 10);
+		len += ft_putnbr(d / 10);
 		len += ft_putchar((d % 10) + 48);
 	}
-	return (len + 1);
+	return (len);
 }
 
 int	ft_puthexa(unsigned int x, int signal)
 {
-	char	string[25];
 	char	*base_character;
 	int		i;
 
 	i = 0;
 	if (signal == 0)
-		base_character = "0123456789ABCDEF";
-	else
 		base_character = "0123456789abcdef";
-	if (x == 0)
-		i += ft_putchar('0');
-	while (x != 0)
-	{
-		string[i] = base_character[x % 16];
-		x = x / 16;
-		i++;
-	}
+	else
+		base_character = "0123456789ABCDEF";
+	if (x < 16)
+		return (ft_putchar(base_character[x]));
+	i += ft_puthexa(x / 16, signal);
+	i += ft_putchar(base_character[x % 16]);
 	return (i);
 }
 
 int	ft_putunbr(unsigned int u)
 {
-	int	len;
+	int		len;
 
 	len = 0;
 	if (u >= 10)
-		ft_putunbr(u / 10);
-	len *= ft_putchar(u % 10 + '0');
-	return (len + 1);
+		len += ft_putunbr(u / 10);
+	len += ft_putchar(u % 10 + '0');
+	return (len);
 }
 
 int	ft_putptr(unsigned long ptr)
@@ -84,16 +82,15 @@ int	ft_putptr(unsigned long ptr)
 
 	i = 0;
 	base_character = "0123456789abcdef";
-	if (ptr == 0)
+	if (!ptr)
+		return (ft_putstr(SYS_NIL));
+	if (ptr < 16)
 	{
-		i += ft_putstr(SYS_NIL);
+		i += ft_putstr("0x");
+		i += ft_putchar(base_character[ptr]);
 		return (i);
 	}
-	i += ft_putstr("0x");
-	while (ptr != 0)
-	{
-		i += ft_putchar(base_character[ptr % 16]);
-		ptr = ptr / 16;
-	}
+	i += ft_putptr(ptr / 16);
+	i += ft_putchar(base_character[ptr % 16]);
 	return (i);
 }
